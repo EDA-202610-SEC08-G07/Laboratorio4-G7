@@ -104,3 +104,21 @@ def sub_list(my_list, pos_i, num_elements):
         "elements": new_elements,
         "size": len(new_elements)
     }
+    
+def get_element(my_list, pos):
+    size = my_list["size"]
+    if size < pos or pos <= 0:
+        return IndexError
+    return my_list["elements"][pos]
+
+def is_present(my_list, element, cpm_function):
+    size = my_list["size"]
+    encontrado = False
+    i = 0
+    if size == 0:
+        return -1
+    while i < size:
+        if cpm_function(my_list["elements"][i], element) == 0:
+            return 1
+        i += 1
+    return -1
