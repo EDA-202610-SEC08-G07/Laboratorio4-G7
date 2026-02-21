@@ -29,7 +29,7 @@ Este repositorio forma parte del marco docente de estructura de datos y algoritm
 Los estudiantes editan esta sección para agregar sus nombres, correos electrónicos de Uniandes y especificar qué funcionalidad de proyecto implementarán.
 
 1. Juan David Saldaña Mateus , J.saldanam@uniandes.edu.co, 202511865 Funcionalidad propiedad del estudiante No. 1.
-2. Juan David Navarro Florez, j.navarro@uniandes.edu.co, 202526487 Funcionalidad propiedad del estudiante No. 2.
+2. Juan David Navarro Florez, j.navarrof@uniandes.edu.co, 202526487 Funcionalidad propiedad del estudiante No. 2.
 3. Everth Andres Plata Echeverry , e.platae@uniandes.edu.co , 202513367 Funcionalidad propiedad del estudiante No. 3.
 
 [Volver al inicio](#laboratorio-4)
