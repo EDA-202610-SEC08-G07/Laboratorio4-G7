@@ -33,7 +33,7 @@ from DataStructures.Stack import stack as st
 from DataStructures.Queue import queue as q
 
 
-data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
+data_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + '/Data/GoodReads/'
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -121,7 +121,7 @@ def load_books_to_read(catalog):
     """
     # TODO Implementar la carga de los libros por leer del archivo to_read
     books_to_read = data_dir + "/book_to_read-small.csv"
-    input_file = csv.DcitReader(open(books_to_read, encoding = "utf-8"))
+    input_file = csv.DictReader(open(books_to_read, encoding = "utf-8"))
     for book_to_read in input_file:
         add_book_to_read(catalog, book_to_read)
     return books_to_read_size(catalog)
@@ -136,7 +136,7 @@ def get_books_stack_by_user(catalog, user_id):
     books_t_read = catalog["books_to_read"]
     books_stack = st.new_stack()
     size = lt.size(books_t_read)
-    for i in range(size):
+    for i in range(1, size + 1):
         e = lt.get_element(books_t_read, i)
         if e["user_id"] == user_id:
             st.push(books_stack, e["user_id"])
@@ -153,7 +153,7 @@ def get_user_position_on_queue(catalog, user_id, book_id):
     qu = q.new_queue()
     s = lt.size(l)
     position = None
-    for i in range(s):
+    for i in range(1, s + 1):
         record = lt.get_element(l, i)
         if record["book_id"] == book_id:
             q.enqueue(qu, record["user_id"])
@@ -293,7 +293,7 @@ def books_to_read_size(catalog):
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 
-def compare_authors(author_name1, author):
+def compare_authors(author, author_name1):
     if author_name1.lower() == author['name'].lower():
         return 0
     elif author_name1.lower() > author['name'].lower():
@@ -313,9 +313,13 @@ def set_book_sublist(catalog, size):
     """
     Crea una sublista de libros de tamaño size
     """
-    algo = lt.sub_list(catalog["books"], 0, size)
-    catalog["book_sublist"] = algo
-    return catalog
+    books = catalog["books"]
+    total = lt.size(books)
+
+    if size > total:
+      size = total
+
+    catalog["book_sublist"] = lt.sub_list(books, 1, size)
 
 
 def get_time():
@@ -337,12 +341,12 @@ def measure_queue_performance(catalog):
     """
     Mide el desempeño de las operaciones de la cola
     """
-
+    if catalog["book_sublist"] is None:
+        return None
     queue = q.new_queue()
-
     # Medir enqueue
     start_time = get_time()
-    for pos in range(lt.size(catalog["book_sublist"])):
+    for pos in range(1, lt.size(catalog["book_sublist"])):
         book = lt.get_element(catalog["book_sublist"], pos)
         q.enqueue(queue, book)
     end_time = get_time()
@@ -350,7 +354,7 @@ def measure_queue_performance(catalog):
 
     # Medir peek
     start_time = get_time()
-    next = q.peek(queue)
+    q.peek(queue)
     end_time = get_time()
     peek_time = delta_time(start_time, end_time)
 
@@ -372,13 +376,14 @@ def measure_stack_performance(catalog):
     """
     Mide el desempeño de las operaciones de la pila
     """
-
+    if catalog["book_sublist"] is None:
+        return None
     stack = st.new_stack()
 
     # Medir push
     start_time = get_time()
     for pos in range(lt.size(catalog["book_sublist"])):
-        book = lt.get_element(catalog["book_sublist"], pos + 1)
+        book = lt.get_element(catalog["book_sublist"], pos)
         st.push(stack, book)
     end_time = get_time()
     push_time = delta_time(start_time, end_time)
